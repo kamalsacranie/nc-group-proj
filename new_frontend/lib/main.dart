@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 
 void main() {
@@ -27,81 +28,66 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: SpannableGrid(
-        columns: 2,
-        rows: 5,
-        cells: _getCells(),
-      ),
+    return StaggeredGrid.count(
+      axisDirection: AxisDirection.down,
+      crossAxisCount: 4,
+      mainAxisSpacing: 3,
+      crossAxisSpacing: 3,
+      children: const [
+        StaggeredGridTile.count(
+          crossAxisCellCount: 2,
+          mainAxisCellCount: 2,
+          child: Tile(index: 0),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 2,
+          mainAxisCellCount: 1,
+          child: Tile(index: 1),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 2),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 3),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 3,
+          mainAxisCellCount: 3,
+          child: Tile(index: 4),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 5),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 6),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 7),
+        ),
+      ],
     );
   }
+}
 
-  List<SpannableGridCellData> _getCells() {
-    var result = <SpannableGridCellData>[];
+class Tile extends StatelessWidget {
+  final int index;
+  const Tile({super.key, required this.index});
 
-    result.add(
-      SpannableGridCellData(
-          id: "Task 1",
-          column: 1,
-          row: 1,
-          child: Container(
-            padding: const EdgeInsets.all(3.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: const Text("Task 1"),
-          )),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+      child: Text("Task $index"),
     );
-    result.add(
-      SpannableGridCellData(
-          id: "Task 2",
-          column: 2,
-          row: 1,
-          child: Container(
-            padding: const EdgeInsets.all(3.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: const Text("Task 2"),
-          )),
-    );
-    result.add(
-      SpannableGridCellData(
-          id: "Task 3",
-          column: 1,
-          row: 2,
-          child: Container(
-            padding: const EdgeInsets.all(3.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: const Text("Task 3"),
-          )),
-    );
-    result.add(
-      SpannableGridCellData(
-          id: "Task 4",
-          column: 2,
-          row: 2,
-          child: Container(
-            padding: const EdgeInsets.all(3.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: const Text("Task 4"),
-          )),
-    );
-    result.add(
-      SpannableGridCellData(
-          id: "Task 5",
-          column: 1,
-          row: 3,
-          columnSpan: 2,
-          child: Container(
-            padding: const EdgeInsets.all(3.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: const Text("Task 5"),
-          )),
-    );
-
-    return result;
   }
 }
