@@ -1,43 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_quickstart/pages/account_page.dart';
-import 'package:supabase_quickstart/pages/login_page.dart';
-import 'package:supabase_quickstart/pages/splash_page.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:spannable_grid/spannable_grid.dart';
 
-Future<void> main() async {
-  await Supabase.initialize(
-    // TODO: generate safe credentials before production
-    url: 'http://localhost:8000',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE',
-  );
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Supabase Flutter',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.green,
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.green,
-          ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: RootPage(),
+    );
+  }
+}
+
+class RootPage extends StatefulWidget {
+  const RootPage({super.key});
+
+  @override
+  State<RootPage> createState() => _RootPageState();
+}
+
+class _RootPageState extends State<RootPage> {
+  @override
+  Widget build(BuildContext context) {
+    return StaggeredGrid.count(
+      axisDirection: AxisDirection.down,
+      crossAxisCount: 4,
+      mainAxisSpacing: 3,
+      crossAxisSpacing: 3,
+      children: const [
+        StaggeredGridTile.count(
+          crossAxisCellCount: 2,
+          mainAxisCellCount: 2,
+          child: Tile(index: 0),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.green,
-          ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 2,
+          mainAxisCellCount: 1,
+          child: Tile(index: 1),
         ),
-      ),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
-        '/account': (_) => const AccountPage(),
-      },
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 2),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 3),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 3,
+          mainAxisCellCount: 3,
+          child: Tile(index: 4),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 5),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 6),
+        ),
+        StaggeredGridTile.count(
+          crossAxisCellCount: 1,
+          mainAxisCellCount: 1,
+          child: Tile(index: 7),
+        ),
+      ],
+    );
+  }
+}
+
+class Tile extends StatelessWidget {
+  final int index;
+  const Tile({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+      child: Text("Task $index"),
     );
   }
 }
